@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <fstream>
 using namespace std;
 
 struct Pipe {
@@ -76,6 +77,29 @@ void Edit_CS(CS& cs) {
     }
 }
 
+void SaveToFile(const Pipe& t, const CS& cs) {
+    ofstream file("laba1.txt");
+    if (file.is_open()) {
+        file << "PIPE\n";
+        file << t.name << "\n";
+        file << t.length << "\n";
+        file << t.diametr << "\n";
+        file << t.status << "\n";
+
+        file << "CS\n";
+        file << cs.name << "\n";
+        file << cs.number_work << "\n";
+        file << cs.number_work_online << "\n";
+        file << cs.class_cs << "\n";
+
+        file.close();
+        cout << "Data of Pipe and CS saved to file!\n";
+    }
+    else {
+        cout << "Error saving file!\n";
+    }
+}
+
 void ShowMenu(Pipe t, CS cs)
 {
     int option;
@@ -105,6 +129,9 @@ void ShowMenu(Pipe t, CS cs)
             break;
         case 5:
             Edit_CS(cs);
+            break;
+        case 6:
+            SaveToFile(t, cs);
             break;
         }
     }
