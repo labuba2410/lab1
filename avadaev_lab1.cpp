@@ -15,16 +15,34 @@ struct CS {
     string class_cs;
 };
 
+void AddPipe(Pipe& t) {
+    cout << "Insert pipe name: ";
+    cin >> t.name;
+    cout << "Insert pipe length (km): ";
+    cin >> t.length;
+    cout << "Insert pipe diametr (mm): ";
+    cin >> t.diametr;
+    cout << " Insert pipe status (0 - working, 1 - in repair): ";
+    cin >> t.status;
+}
+
 void ShowMenu(Pipe t, CS cs)
 {
     int option;
     while (1) {
-        cout << "Chooose options: \n1. Add pipe \n2. Add CS \n3. Show all objects";
+        cout << "\n   MENU";
+        cout << "\n1. Add pipe";
+        cout << "\n2. Add CS";
+        cout << "\n3. Show all objects";
+        cout << "\n4. Edit pipe";
+        cout << "\n5. Edit CS";
+        cout << "\n6. Save";
+        cout << "\n7. Load";
+        cout << "\n0. Exit";
         cin >> option;
         switch (option) {
         case 1:
-            cout << "Insert pipe name pls: ";
-            cin >> t.name;
+            AddPipe(t);
             break;
         case 2:
             break;
