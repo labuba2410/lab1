@@ -26,6 +26,17 @@ void AddPipe(Pipe& t) {
     cin >> t.status;
 }
 
+void AddCS(CS& cs) {
+    cout << "Insert CS name: ";
+    cin >> cs.name;
+    cout << "Insert number of workshops: ";
+    cin >> cs.number_work;
+    cout << "Insert number of workshops online: ";
+    cin >> cs.number_work_online;
+    cout << "Insert CS class: ";
+    cin >> cs.class_cs;
+}
+
 void ShowMenu(Pipe t, CS cs)
 {
     int option;
@@ -45,6 +56,7 @@ void ShowMenu(Pipe t, CS cs)
             AddPipe(t);
             break;
         case 2:
+            AddCS(cs);
             break;
         case 3:
             cout << "\nPipe name: " << t.name;
