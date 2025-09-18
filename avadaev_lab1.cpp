@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 struct Pipe {
@@ -100,6 +101,32 @@ void SaveToFile(const Pipe& t, const CS& cs) {
     }
 }
 
+void FromFile(Pipe& t, CS& cs) {
+    ifstream file("laba1.txt");
+    if (file.is_open()) {
+        string line;
+        getline(file, line); // Skip "PIPE"
+        getline(file, t.name);
+        file >> t.length;
+        file >> t.diametr;
+        file >> t.status;
+        file.ignore();
+
+        getline(file, line); // Skip "CS"
+        getline(file, cs.name);
+        file >> cs.number_work;
+        file >> cs.number_work_online;
+        file.ignore();
+        getline(file, cs.class_cs);
+
+        file.close();
+        cout << "Data loaded from file!\n";
+    }
+    else {
+        cout << "Error loading file!\n";
+    }
+}
+
 void ShowMenu(Pipe t, CS cs)
 {
     int option;
@@ -113,6 +140,7 @@ void ShowMenu(Pipe t, CS cs)
         cout << "\n6. Save";
         cout << "\n7. Load";
         cout << "\n0. Exit";
+        cout << "\nChoose option: \n";
         cin >> option;
         switch (option) {
         case 1:
@@ -132,6 +160,9 @@ void ShowMenu(Pipe t, CS cs)
             break;
         case 6:
             SaveToFile(t, cs);
+            break;
+        case 7:
+            FromFile(t, cs);
             break;
         }
     }
