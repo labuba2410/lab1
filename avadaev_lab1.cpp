@@ -51,6 +51,13 @@ void ShowAllObjects(const Pipe& t, const CS& cs) {
     cout << "\nClass: " << cs.class_cs;
 }
 
+void Edit_the_Pipe(Pipe& t) {
+    cout << "Status: " << (t.status ? "In repair" : "Working");
+    cout << "\nChange pipe's status (0 - working, 1 - in repair): ";
+    cin >> t.status;
+    cout << "The pipe status has been successfully changed.";
+}
+
 void ShowMenu(Pipe t, CS cs)
 {
     int option;
@@ -74,6 +81,9 @@ void ShowMenu(Pipe t, CS cs)
             break;
         case 3:
             ShowAllObjects(t, cs);
+            break;
+        case 4:
+            Edit_the_Pipe(t);
             break;
         }
     }
