@@ -37,6 +37,20 @@ void AddCS(CS& cs) {
     cin >> cs.class_cs;
 }
 
+void ShowAllObjects(const Pipe& t, const CS& cs) {
+    cout << "\n    PIPE";
+    cout << "\nName: " << t.name;
+    cout << "\nLength: " << t.length << " km";
+    cout << "\nDiametr: " << t.diametr << " mm";
+    cout << "\nStatus: " << (t.status ? "In repair" : "Working");
+
+    cout << "\n\n    COMPRESSOR STATION";
+    cout << "\nName: " << cs.name;
+    cout << "\nTotal workshops: " << cs.number_work;
+    cout << "\nWorkshops online: " << cs.number_work_online;
+    cout << "\nClass: " << cs.class_cs;
+}
+
 void ShowMenu(Pipe t, CS cs)
 {
     int option;
@@ -59,7 +73,7 @@ void ShowMenu(Pipe t, CS cs)
             AddCS(cs);
             break;
         case 3:
-            cout << "\nPipe name: " << t.name;
+            ShowAllObjects(t, cs);
             break;
         }
     }
