@@ -58,6 +58,24 @@ void Edit_the_Pipe(Pipe& t) {
     cout << "The pipe status has been successfully changed.";
 }
 
+void Edit_CS(CS& cs) {
+    cout << "Current workshops online: " << cs.number_work_online << " / " << cs.number_work;
+    cout << "\nChoose action:\n1. Start workshop\n2. Stop workshop ";
+    int action;
+    cin >> action;
+    if (action == 1 && cs.number_work_online < cs.number_work) {
+        cs.number_work_online++;
+        cout << "Workshop started!\n";
+    }
+    else if (action == 2 && cs.number_work_online > 0) { 
+        cs.number_work_online--;
+        cout << "Workshop stopped!\n";
+    }
+    else {
+        cout << "Action not possible!\n";
+    }
+}
+
 void ShowMenu(Pipe t, CS cs)
 {
     int option;
@@ -84,6 +102,9 @@ void ShowMenu(Pipe t, CS cs)
             break;
         case 4:
             Edit_the_Pipe(t);
+            break;
+        case 5:
+            Edit_CS(cs);
             break;
         }
     }
