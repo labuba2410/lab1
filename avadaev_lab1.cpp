@@ -18,17 +18,47 @@ struct CS {
 };
 
 void AddPipe(Pipe& t) {
+    system("cls");
+    cout << "Add Pipe" << endl;
+
+    cin.clear();
+    cin.ignore(1000, '\n');
+
     cout << "Insert pipe name: ";
-    cin >> t.name;
+    getline(cin, t.name);
+    while (t.name.empty()) {
+        cout << "Error! Pipe name can not be empty. Pls enter again: ";
+        getline(cin, t.name);
+    }
+
     cout << "Insert pipe length (km): ";
-    cin >> t.length;
+    while (!(cin >> t.length) || t.length <= 0 || cin.peek() != '\n') {
+        cout << "Error! Pls enter positive number: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+
     cout << "Insert pipe diametr (mm): ";
-    cin >> t.diametr;
+    while (!(cin >> t.diametr) || t.diametr <= 0 || cin.peek() != '\n') {
+        cout << "Error! Pls enter poositive integer: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+
     cout << " Insert pipe status (0 - working, 1 - in repair): ";
-    cin >> t.status;
+    int pipe_st;
+    while (!(cin >> pipe_st) || (pipe_st != 0 && pipe_st != 1) || cin.peek() != '\n') {
+        cout << "Error! Pls enter 0 or 1: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+    t.status = (pipe_st == 1);
+
+    cin.ignore(1000, '\n');
 }
 
 void AddCS(CS& cs) {
+    system("cls");
     cout << "Insert CS name: ";
     cin >> cs.name;
     cout << "Insert number of workshops: ";
@@ -40,6 +70,7 @@ void AddCS(CS& cs) {
 }
 
 void ShowAllObjects(const Pipe& t, const CS& cs) {
+    system("cls");
     cout << "\n    PIPE";
     cout << "\nName: " << t.name;
     cout << "\nLength: " << t.length << " km";
@@ -54,6 +85,7 @@ void ShowAllObjects(const Pipe& t, const CS& cs) {
 }
 
 void Edit_the_Pipe(Pipe& t) {
+    system("cls");
     cout << "Status: " << (t.status ? "In repair" : "Working");
     cout << "\nChange pipe's status (0 - working, 1 - in repair): ";
     cin >> t.status;
@@ -105,14 +137,14 @@ void FromFile(Pipe& t, CS& cs) {
     ifstream file("laba1.txt");
     if (file.is_open()) {
         string line;
-        getline(file, line); // Skip "PIPE"
+        getline(file, line);
         getline(file, t.name);
         file >> t.length;
         file >> t.diametr;
         file >> t.status;
         file.ignore();
 
-        getline(file, line); // Skip "CS"
+        getline(file, line);
         getline(file, cs.name);
         file >> cs.number_work;
         file >> cs.number_work_online;
@@ -129,6 +161,7 @@ void FromFile(Pipe& t, CS& cs) {
 
 void ShowMenu(Pipe t, CS cs)
 {
+    system("cls");
     int option;
     while (1) {
         cout << "\n   MENU";
@@ -141,7 +174,17 @@ void ShowMenu(Pipe t, CS cs)
         cout << "\n7. Load";
         cout << "\n0. Exit";
         cout << "\nChoose option: \n";
-        cin >> option;
+        if (!(cin >> option)) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Error! Please enter a number 0-7\n";
+            continue;
+        }
+
+        if (option < 0 || option > 7) {
+            cout << "Error! Please enter number 0-7\n";
+            continue;
+        }
         switch (option) {
         case 1:
             AddPipe(t);
