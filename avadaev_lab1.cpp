@@ -117,7 +117,7 @@ void ShowAllObjects(const Pipe& t, const CS& cs) {
     }
 
     if (cs.name.empty()) {
-        cout << "Error! CS was not added.\n";
+        cout << "\n\nError! CS was not added.\n";
     }
     else {
         cout << "\n\n    COMPRESSOR STATION";
@@ -126,18 +126,37 @@ void ShowAllObjects(const Pipe& t, const CS& cs) {
         cout << "\nWorkshops online: " << cs.number_work_online;
         cout << "\nClass: " << cs.class_cs;
     }
-    cout << "Press Enter to continue...";
+    cout << "\nPress Enter to continue...";
     cin.ignore(1000, '\n');
     while (cin.get() != '\n');
 }
 
 void Edit_the_Pipe(Pipe& t) {
     system("cls");
+    if (t.name.empty()) {
+        cout << "Error! Pipe was not added.\n";
+        cout << "To add Pipe, pls press Enter and add pipe throug the menu...";
+        cin.ignore(1000, '\n');
+        while (cin.get() != '\n');
+        return;
+    }
+    system("cls");
+    cout << "\n    PIPE";
+    cout << "\nName: " << t.name;
+    cout << "\nLength: " << t.length << " km";
+    cout << "\nDiametr: " << t.diametr << " mm";
+    cout << "\nStatus: " << (t.status ? "In repair" : "Working");
 
-    cout << "Status: " << (t.status ? "In repair" : "Working");
     cout << "\nChange pipe's status (0 - working, 1 - in repair): ";
-    cin >> t.status;
-    cout << "The pipe status has been successfully changed.";
+    int change_st;
+    while (!(cin >> change_st) || (change_st != 0 && change_st != 1) || cin.peek() != '\n') {
+        cout << "Error! Pls enter 0 or 1: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+    t.status = (change_st == 1);
+    cout << "The pipe status has been successfully changed: " << (t.status ? "In repair" : "Working") << "!";
+    
 }
 
 void Edit_CS(CS& cs) {
