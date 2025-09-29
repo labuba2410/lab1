@@ -45,7 +45,7 @@ void AddPipe(Pipe& t) {
         cin.ignore(1000, '\n');
     }
 
-    cout << " Insert pipe status (0 - working, 1 - in repair): ";
+    cout << "Insert pipe status (0 - working, 1 - in repair): ";
     int pipe_st;
     while (!(cin >> pipe_st) || (pipe_st != 0 && pipe_st != 1) || cin.peek() != '\n') {
         cout << "Error! Pls enter 0 or 1: ";
@@ -59,14 +59,47 @@ void AddPipe(Pipe& t) {
 
 void AddCS(CS& cs) {
     system("cls");
+    cout << "Add CS" << endl;
+
+    cin.clear();
+    cin.ignore(1000, '\n');
+
     cout << "Insert CS name: ";
-    cin >> cs.name;
+    getline(cin, cs.name);
+    while (cs.name.empty()) {
+        cout << "Error! CS name can not be empty. Pls enter again: ";
+        getline(cin, cs.name);
+    }
+
     cout << "Insert number of workshops: ";
-    cin >> cs.number_work;
+    while (!(cin >> cs.number_work) || cs.number_work <= 0 || cin.peek() != '\n') {
+        cout << "Error! Pls enter poositive integer: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+
     cout << "Insert number of workshops online: ";
-    cin >> cs.number_work_online;
+    while (!(cin >> cs.number_work_online) || cs.number_work_online < 0 || cs.number_work_online > cs.number_work || cin.peek() != '\n') {
+        if (cin.fail()) {
+            cout << "Error! Pls enter positive number: ";
+        }
+        else if (cs.number_work_online > cs.number_work) {
+            cout << "Error! The number of operating workshops cannot exceed the total number of workshops: (" << cs.number_work << "). Pls enter again: ";
+        }
+        else {
+            cout << "Error! Pls enter non-negative number: ";
+        }
+        cin.clear();
+        cin.ignore(1000, '\n');
+    }
+    cin.ignore(1000, '\n');
+
     cout << "Insert CS class: ";
-    cin >> cs.class_cs;
+    getline(cin, cs.class_cs);
+    while (cs.class_cs.empty()) {
+        cout << "Error! Cs class can not be empty. Pls enter again: ";
+        getline(cin, cs.class_cs);
+    }
 }
 
 void ShowAllObjects(const Pipe& t, const CS& cs) {
@@ -164,7 +197,7 @@ void ShowMenu(Pipe t, CS cs)
     system("cls");
     int option;
     while (1) {
-        cout << "\n   MENU";
+        cout << "\n\n   MENU";
         cout << "\n1. Add pipe";
         cout << "\n2. Add CS";
         cout << "\n3. Show all objects";
