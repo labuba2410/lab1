@@ -104,21 +104,36 @@ void AddCS(CS& cs) {
 
 void ShowAllObjects(const Pipe& t, const CS& cs) {
     system("cls");
-    cout << "\n    PIPE";
-    cout << "\nName: " << t.name;
-    cout << "\nLength: " << t.length << " km";
-    cout << "\nDiametr: " << t.diametr << " mm";
-    cout << "\nStatus: " << (t.status ? "In repair" : "Working");
 
-    cout << "\n\n    COMPRESSOR STATION";
-    cout << "\nName: " << cs.name;
-    cout << "\nTotal workshops: " << cs.number_work;
-    cout << "\nWorkshops online: " << cs.number_work_online;
-    cout << "\nClass: " << cs.class_cs;
+    if (t.name.empty()) {
+        cout << "Error! Pipe was not added.\n";
+    }
+    else {
+        cout << "\n    PIPE";
+        cout << "\nName: " << t.name;
+        cout << "\nLength: " << t.length << " km";
+        cout << "\nDiametr: " << t.diametr << " mm";
+        cout << "\nStatus: " << (t.status ? "In repair" : "Working");
+    }
+
+    if (cs.name.empty()) {
+        cout << "Error! CS was not added.\n";
+    }
+    else {
+        cout << "\n\n    COMPRESSOR STATION";
+        cout << "\nName: " << cs.name;
+        cout << "\nTotal workshops: " << cs.number_work;
+        cout << "\nWorkshops online: " << cs.number_work_online;
+        cout << "\nClass: " << cs.class_cs;
+    }
+    cout << "Press Enter to continue...";
+    cin.ignore(1000, '\n');
+    while (cin.get() != '\n');
 }
 
 void Edit_the_Pipe(Pipe& t) {
     system("cls");
+
     cout << "Status: " << (t.status ? "In repair" : "Working");
     cout << "\nChange pipe's status (0 - working, 1 - in repair): ";
     cin >> t.status;
@@ -240,6 +255,8 @@ void ShowMenu(Pipe t, CS cs)
         case 7:
             FromFile(t, cs);
             break;
+        case 0:
+            exit(0);
         }
     }
 };
