@@ -223,21 +223,33 @@ void SaveToFile(const Pipe& t, const CS& cs) {
         return;
     }
     
-    file << "PIPE\n";
-    file << t.name << "\n";
-    file << t.length << "\n";
-    file << t.diametr << "\n";
-    file << t.status << "\n";
-
-    file << "CS\n";
-    file << cs.name << "\n";
-    file << cs.number_work << "\n";
-    file << cs.number_work_online << "\n";
-    file << cs.class_cs << "\n";
-
+    if (!t.name.empty()) {
+        file << "PIPE\n";
+        file << t.name << "\n";
+        file << t.length << "\n";
+        file << t.diametr << "\n";
+        file << t.status << "\n";
+        file << endl;
+    }
+    else {
+        file << "Pipe was not added." << endl << endl;
+    }
+    if (!cs.name.empty()) {
+        file << "CS\n";
+        file << cs.name << "\n";
+        file << cs.number_work << "\n";
+        file << cs.number_work_online << "\n";
+        file << cs.class_cs << "\n";
+        file << endl;
+    }
+    else {
+        file << "CS was now added." << endl << endl;
+    }
     file.close();
     cout << "Data of Pipe and CS saved to file!\n";
-    
+    cout << "\nPls press Enter to continue...";
+    cin.ignore(1000, '\n');
+    while (cin.get() != '\n');
 }
 
 void FromFile(Pipe& t, CS& cs) {
