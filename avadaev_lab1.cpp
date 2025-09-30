@@ -132,8 +132,8 @@ void ShowAllObjects(const Pipe& t, const CS& cs) {
 }
 
 void Edit_the_Pipe(Pipe& t) {
-    system("cls");
     if (t.name.empty()) {
+        system("cls");
         cout << "Error! Pipe was not added.\n";
         cout << "To add Pipe, pls press Enter and add pipe throug the menu...";
         cin.ignore(1000, '\n');
@@ -156,48 +156,88 @@ void Edit_the_Pipe(Pipe& t) {
     }
     t.status = (change_st == 1);
     cout << "The pipe status has been successfully changed: " << (t.status ? "In repair" : "Working") << "!";
-    
+    cout << "\nPls press Enter to continue...";
+    cin.ignore(1000, '\n');
+    while (cin.get() != '\n');
 }
 
 void Edit_CS(CS& cs) {
-    cout << "Current workshops online: " << cs.number_work_online << " / " << cs.number_work;
-    cout << "\nChoose action:\n1. Start workshop\n2. Stop workshop ";
+    if (cs.name.empty()) {
+        system("cls");
+        cout << "Error! CS was not added.\n";
+        cout << "To add CS, pls press Enter and add CS throug the menu...";
+        cin.ignore(1000, '\n');
+        while (cin.get() != '\n');
+        return;
+    }
+    system("cls");
+
+    cout << "\n\n    COMPRESSOR STATION";
+    cout << "\nName: " << cs.name;
+    cout << "\nTotal workshops: " << cs.number_work;
+    cout << "\nWorkshops online: " << cs.number_work_online;
+    cout << "\nClass: " << cs.class_cs;
+
+    cout << "\nCurrent workshops online: " << cs.number_work_online << " / " << cs.number_work;
+    cout << "\nChoose action:\n1. Start workshop\n2. Stop workshop\n";
+
     int action;
-    cin >> action;
-    if (action == 1 && cs.number_work_online < cs.number_work) {
-        cs.number_work_online++;
-        cout << "Workshop started!\n";
+    while (!(cin >> action) || action < 1 || action > 2 || cin.peek() != '\n') {
+        cout << "Error! Pls enter 1 or 2: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
     }
-    else if (action == 2 && cs.number_work_online > 0) { 
-        cs.number_work_online--;
-        cout << "Workshop stopped!\n";
+
+    switch (action) {
+    case 1:
+        if (cs.number_work_online < cs.number_work) {
+            cs.number_work_online++;
+            cout << "Workshop is running. Now there: " << cs.number_work_online << "/" << cs.number_work << endl;
+        }
+        else {
+            cout << "Error! All workshops are already working" << endl;
+        }
+        break;
+
+        if (cs.number_work_online > 0) {
+            cs.number_work_online--;
+            cout << "Workshop is stopped. Now there: " << cs.number_work_online << "/" << cs.number_work << endl;
+        }
+        else {
+            cout << "Error! There are no working workshops." << endl;
+        }
+        break;
     }
-    else {
-        cout << "Action not possible!\n";
-    }
+    cout << "\nPls press Enter to continue...";
+    cin.ignore(1000, '\n');
+    while (cin.get() != '\n');
 }
 
 void SaveToFile(const Pipe& t, const CS& cs) {
     ofstream file("laba1.txt");
-    if (file.is_open()) {
-        file << "PIPE\n";
-        file << t.name << "\n";
-        file << t.length << "\n";
-        file << t.diametr << "\n";
-        file << t.status << "\n";
-
-        file << "CS\n";
-        file << cs.name << "\n";
-        file << cs.number_work << "\n";
-        file << cs.number_work_online << "\n";
-        file << cs.class_cs << "\n";
-
-        file.close();
-        cout << "Data of Pipe and CS saved to file!\n";
+    if (!file.is_open()) {
+        cout << "Error! Couldn't open or create a file." << endl;
+        cout << "Press Enter to continue...";
+        cin.ignore(1000, '\n');
+        while (cin.get() != '\n');
+        return;
     }
-    else {
-        cout << "Error saving file!\n";
-    }
+    
+    file << "PIPE\n";
+    file << t.name << "\n";
+    file << t.length << "\n";
+    file << t.diametr << "\n";
+    file << t.status << "\n";
+
+    file << "CS\n";
+    file << cs.name << "\n";
+    file << cs.number_work << "\n";
+    file << cs.number_work_online << "\n";
+    file << cs.class_cs << "\n";
+
+    file.close();
+    cout << "Data of Pipe and CS saved to file!\n";
+    
 }
 
 void FromFile(Pipe& t, CS& cs) {
@@ -226,7 +266,7 @@ void FromFile(Pipe& t, CS& cs) {
     }
 }
 
-void ShowMenu(Pipe t, CS cs)
+void ShowMenu(Pipe& t, CS& cs)
 {
     system("cls");
     int option;
