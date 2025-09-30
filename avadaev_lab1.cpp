@@ -252,30 +252,56 @@ void SaveToFile(const Pipe& t, const CS& cs) {
     while (cin.get() != '\n');
 }
 
-void FromFile(Pipe& t, CS& cs) {
-    ifstream file("laba1.txt");
-    if (file.is_open()) {
-        string line;
-        getline(file, line);
-        getline(file, t.name);
-        file >> t.length;
-        file >> t.diametr;
-        file >> t.status;
-        file.ignore();
-
-        getline(file, line);
-        getline(file, cs.name);
-        file >> cs.number_work;
-        file >> cs.number_work_online;
-        file.ignore();
-        getline(file, cs.class_cs);
-
-        file.close();
-        cout << "Data loaded from file!\n";
+void LoadFromFile(Pipe& t, CS& cs) {
+    ifstream fromFile("laba1.txt");
+    if (!fromFile.is_open()) {
+        cout << "Error! Could not open file 'laba1.txt'!\n";
+        cout << "Press Enter to continue...";
+        cin.ignore(1000, '\n');
+        while (cin.get() != '\n');
+        return;
+    }
+    string line;
+    getline(fromFile, line);
+    if (line == "PIPE") {
+        getline(fromFile, t.name);
+        if (fromFile >> t.length >> t.diametr >> t.status) {
+            fromFile.ignore();
+            cout << "Pipe data loaded successfully.\n";
+        }
+        else {
+            cout << "Error reading pipe data from file!\n";
+            t = Pipe();
+        }
     }
     else {
-        cout << "Error loading file!\n";
+        cout << "No pipe data in file or invalid format.\n";
+        t = Pipe();
     }
+    getline(fromFile, line); 
+    getline(fromFile, line);
+    if (line == "CS") {
+        getline(fromFile, cs.name);
+        if (fromFile >> cs.number_work >> cs.number_work_online) {
+            fromFile.ignore();
+            getline(fromFile, cs.class_cs);
+            cout << "CS data loaded successfully.\n";
+        }
+        else {
+            cout << "Error reading CS data from file!\n";
+
+            cs = CS();
+        }
+    }
+    else {
+        cout << "No CS data in file or invalid format.\n";
+        cs = CS();
+    }
+    fromFile.close();
+    cout << "Data loading completed!\n";
+    cout << "Press Enter to continue...";
+    cin.ignore(1000, '\n');
+    while (cin.get() != '\n');
 }
 
 void ShowMenu(Pipe& t, CS& cs)
@@ -324,7 +350,7 @@ void ShowMenu(Pipe& t, CS& cs)
             SaveToFile(t, cs);
             break;
         case 7:
-            FromFile(t, cs);
+            LoadFromFile(t, cs);
             break;
         case 0:
             exit(0);
